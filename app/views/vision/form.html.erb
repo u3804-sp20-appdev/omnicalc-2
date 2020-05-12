@@ -1,0 +1,12 @@
+<h1><%= @heading %></h1>
+
+<form action="/vision/<%= @detector %>" method="post" enctype="multipart/form-data">
+  <div>
+    <label for="upload_field">Image</label>
+    <input id="upload_field" type="file" name="the_image">
+  </div>
+
+  <br>
+  
+  <button>Magic</button>
+</form>

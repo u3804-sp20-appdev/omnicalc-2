@@ -1,0 +1,190 @@
+<h1><%= @heading %></h1>
+
+<p>To magic your image, we ran the following code on it:</p>
+
+<pre>
+<code>
+  require "google/cloud/vision"
+  
+  image_annotator = Google::Cloud::Vision::ImageAnnotator.new
+  
+  uploaded_data = params.fetch("the_image")
+
+  a_file = File.open(uploaded_data)
+
+  vision_api_results = image_annotator.<%= @annotator_method %>({ :image => a_file })
+
+  @responses = vision_api_results.responses
+
+  @first_result = vision_api_results.responses.at(0)
+</code>
+</pre>
+
+<p>Now, here in the view template, we have <code>@responses</code>, which contains potentially multiple responses but probably just one unless you did a batch upload of images.</p>
+
+<p>If we take out the first element and put it in a variable called <code>@first_result</code>, you would now have the following info!</p>
+<hr>
+
+<% @responses.each do |response, index| %>
+<details>
+  <summary>
+    <code>@first_result.face_annotations (<%= response.face_annotations.count %>)</code>
+  </summary>
+  <ul>
+    <% response.face_annotations.each_with_index do |face_annotation, index| %>
+      <li>
+        <details>
+        <summary>
+          <code><%= index %></code>
+        </summary>
+        <div>
+          <%= raw(ap face_annotation.to_h) %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</details>
+<details>
+  <summary>
+    <code>@first_result.landmark_annotations (<%= response.landmark_annotations.count %>)</code>
+  </summary>
+  <ul>
+    <% response.landmark_annotations.each_with_index do |landmark_annotation, index| %>
+      <li>
+        <details>
+        <summary>
+          <code><%= index %></code>
+        </summary>
+        <div>
+          <%= raw(ap landmark_annotation.to_h) %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</details>
+<details>
+  <summary>
+    <code>@first_result.logo_annotations (<%= response.logo_annotations.count %>)</code>
+  </summary>
+  <ul>
+    <% response.logo_annotations.each_with_index do |logo_annotation, index| %>
+      <li>
+        <details>
+        <summary>
+          <code><%= index %></code>
+        </summary>
+        <div>
+          <%= raw(ap logo_annotation.to_h) %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</details>
+<details>
+  <summary>
+    <code>@first_result.label_annotations (<%= response.label_annotations.count %>)</code>
+  </summary>
+  <ul>
+    <% response.label_annotations.each_with_index do |label_annotation, index| %>
+      <li>
+        <details>
+        <summary>
+          <code><%= index %></code>
+        </summary>
+        <div>
+          <%= raw(ap label_annotation.to_h) %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</details>
+<details>
+  <summary>
+    <code>@first_result.localized_object_annotations (<%= response.localized_object_annotations.count %>)</code>
+  </summary>
+  <ul>
+    <% response.localized_object_annotations.each_with_index do |localized_object_annotation, index| %>
+          etails>
+        <summary>
+          <code><%= index %></code>
+        </summary>
+      <li>
+        <div>
+          <%= raw(ap localized_object_annotation.to_h) %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</details>
+<details>
+  <summary>
+    <code>@first_result.text_annotations (<%= response.text_annotations.count %>)</code>
+  </summary>
+  <ul>
+    <% response.text_annotations.each_with_index do |text_annotation, index| %>
+      <li>
+        <details>
+        <summary>
+          <code><%= index %></code>
+        </summary>
+        <div>
+          <%= raw(ap text_annotation.to_h) %>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</details>
+<details>
+  <summary>
+    <code>@first_result.full_text_annotation (<%= response.full_text_annotation.to_h.keys %>)</code>
+  </summary>
+  <%= raw(ap response.full_text_annotation.to_h) %>
+</details>
+<details>
+  <summary>
+    <code>@first_result.safe_search_annotation (<%= response.safe_search_annotation.to_h.keys %>)</code>
+  </summary>
+  <%= raw(ap response.safe_search_annotation.to_h) %>
+</details>
+<details>
+  <summary>
+    <code>@first_result.image_properties_annotation (<%= response.image_properties_annotation.to_h.keys %>)</code>
+  </summary>
+  <%= raw(ap response.image_properties_annotation.to_h) %>
+</details>
+<details>
+  <summary>
+    <code>@first_result.crop_hints_annotation (<%= response.crop_hints_annotation.to_h.keys %>)</code>
+  </summary>
+  <%= raw(ap response.crop_hints_annotation.to_h) %>
+</details>
+<details>
+  <summary>
+    <code>@first_result.web_detection (<%= response.web_detection.to_h.keys %>)</code>
+  </summary>
+  <%= raw(ap response.web_detection.to_h) %>
+</details>
+<details>
+  <summary>
+    <code>@first_result.product_search_results (<%= response.product_search_results.to_h.keys %>)</code>
+  </summary>
+  <%= raw(ap response.product_search_results.to_h) %>
+</details>
+<details>
+  <summary>
+    <code>@first_result.error (<%= response.error.to_h.keys %>)</code>
+  </summary>
+  <%= raw(ap response.error.to_h) %>
+</details>
+<details>
+  <summary>
+    <code>@first_result.context (<%= response.context.to_h.keys %>)</code>
+  </summary>
+  <%= raw(ap response.context.to_h) %>
+</details>
+
+<hr>
+<% end %>
+
+
+<a href="<%= @form_path %>">Go back</a>
