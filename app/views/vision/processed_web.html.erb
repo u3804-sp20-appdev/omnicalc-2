@@ -1,0 +1,9 @@
+<ul>
+<% @first_result.web_detection.visually_similar_images.each do |similar_image| %>
+<li>
+  <img src="<%= similar_image.url %>" height="300">
+
+</li>
+
+<% end %>
+</ul>

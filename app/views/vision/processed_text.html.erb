@@ -1,0 +1,18 @@
+<ul>
+  <% @first_result.text_annotations.each do |result| %>
+    <li><%= result.description %></li>
+  <% end %>
+</ul>
+
+<img src="<%= @new_local_file_name.gsub("public/", "") %>">
+
+<br><br>
+
+<style>
+  .google_api_suggested_crop {
+    /* see https://www.w3schools.com/cssref/pr_pos_clip.asp */
+    position: absolute;
+    clip: rect(<%= @top %>, <%= @right %>, <%= @bottom %>, <%= @left %>);   }
+</style>
+
+<img class="google_api_suggested_crop" src="<%= @new_local_file_name.gsub("public/", "") %>">
